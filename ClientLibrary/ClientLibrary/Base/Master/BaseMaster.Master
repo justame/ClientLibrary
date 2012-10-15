@@ -1,0 +1,26 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="BaseMaster.master.cs" Inherits="ClientLibrary.Base.Master.BaseMaster" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <asp:Literal ID="ltrTitle" runat="server"></asp:Literal>
+    </title>
+    <asp:Literal ID="ltrCSS" runat="server"></asp:Literal>
+    <asp:Literal ID="ltrJS" runat="server"></asp:Literal>
+    <script type="text/javascript">
+        (function(){
+             g.jsVarAdd(<asp:Literal ID="ltrJSVars" runat="server"></asp:Literal>);
+        }())
+    </script>
+    <asp:ContentPlaceHolder ID="cphHeaderBaseMaster" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder ID="cphBodyBaseMaster" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>
