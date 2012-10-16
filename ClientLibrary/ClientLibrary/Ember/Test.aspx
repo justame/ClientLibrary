@@ -16,14 +16,12 @@
     <div class="content">
       <script type="text/x-handlebars">
         <div id="create-todo">
-          <input id="new-todo" placeholder="What needs to be done?" type="text" value="">
+          {{view Todos.CreateTodoView id="new-todo" placeholder="What needs to be done?"}}
         </div>
       
         <div id="stats-area">
           <div class="mark-all-done">
-            <label>
-              <input type="checkbox">Mark all as complete
-            </label>
+            {{view Todos.MarkAllCompleteView title="Mark all as complete"}}
           </div>
         </div>
       
@@ -38,18 +36,14 @@
         </div>
       
         <div id="todo-stats">
-          <button type="button">
-            Clear 1 completed items
-          </button>
+          {{#view Ember.Button target="Todos.Controller" action="clearCompleted"}}
+            Clear {{Todos.Controller.completedCount}}} completed items
+          {{/view}}
           {{Todos.Controller.remainingCount}} items left
         </div>
-      </script>  
+      </script>   
     </div>
   </div>
-    <div style="height:1000px;background:Red;">a</div>  
-    <ul id="ulList">
-    
-    </ul>
     <script src="test.js" type="text/javascript"></script>
 
 </body>

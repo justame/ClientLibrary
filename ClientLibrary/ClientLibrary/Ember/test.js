@@ -16,26 +16,59 @@ Todos.Controller = Ember.Object.create({
     // We also override the default init function so we have some data to work with
     init: function () {
         // We always need to use a getter or setter for interacting with properties
-        console.time('t');
-        
         var items = this.get('todos');
-        for (var i = 0; i < 500; i++) {
-            items.addObject(Todos.Todo.create({ title: 'This is an Ember item' }));
-        };
-        console.timeEnd('t');
-        
-        console.log('done!!!!!!!');
-        //items.addObject(Todos.Todo.create({ title: 'This is another Ember item' }));
+        items.addObject(Todos.Todo.create({ title: 'This is an Ember item' }));
+        items.addObject(Todos.Todo.create({ title: 'This is another Ember item' }));
     },
-    remainingCount: function () { // computed property, change when isDone change
+
+    createTodo: function (title) {
+        this.get('todos').addObject(Todos.Todo.create({ title: title }));
+    },
+
+    remainingCount: function () {
         return this.get('todos').filterProperty('isDone', false).length;
-    } .property('todos.@each.isDone')
+    } .property('todos.@each.isDone'),
+
+    completedCount: function () {
+        return this.get('todos').filterProperty('isDone').length;
+    } .property('todos.@each.isDone'),
+
+    clearCompleted: function () {
+        var todos = this.get('todos');
+        todos.removeObjects(todos.filterProperty('isDone'));
+    },
+
+    markAllComplete: function () {
+        this.get('todos').setEach('isDone', true);
+    }
 });
 
-//console.time('t');
-//var elm;
-//var ul = $('#ulList');
-//for (var i = 0; i < 500; i++) {
-//    ul.append($('<li>').html('this is meber item'));
-//}
-//console.timeEnd('t');
+Todos.CreateTodoView = Ember.TextField.extend({
+    insertNewline: function () {
+        var value = this.get('value');
+        if (value) {
+            Todos.Controller.createTodo(value);
+            this.set('value', '');
+        }
+    }
+});
+
+Todos.MarkAllCompleteView = Ember.Checkbox.extend({
+    remainingCountBinding: 'Todos.Controller.remainingCount',
+
+    disabled: function () {
+        return this.get('remainingCount') === 0;
+    } .property('remainingCount'),
+
+    deselect: function () {
+        if (this.get('remainingCount') !== 0) {
+            this.set('value', false);
+        }
+    } .observes('remainingCount'),
+
+    markAllComplete: function () {
+        if (this.get('value')) {
+            Todos.Controller.markAllComplete();
+        }
+    } .observes('value')
+});
