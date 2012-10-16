@@ -9,7 +9,8 @@
     <script src="../Javascript/Base/ember-0.9.8.1.min.js" type="text/javascript"></script>
 </head>
 <body>
-      <div id="todoapp">
+    <h1>TEST</h1>
+    <div id="todoapp">
     <div class="title">
       <h1>Todos</h1>
     </div>
